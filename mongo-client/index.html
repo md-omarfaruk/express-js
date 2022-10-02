@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+    <h1>ALHAMDULILLAH after all i am learning node.js</h1>
+    <p id="userName"></p>
+    <div class="container">
+        <div class="row">
+            <input type="text" id="user" class="form-control">
+            <button id="addUserName" class="btn btn-primery">Add User</button>
+        </div>
+    </div>
+    <script>
+
+        // GET DATA FROM SERVER
+        fetch('http://localhost:7000/users/0')
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("userName").innerText = data.name;
+        })
+
+
+        // POST DATE TO SERVER AND SHOW ON WEBPAGE
+
+        const btnAddUser = document.getElementById("addUserName");
+        btnAddUser.addEventListener("click", () => {
+            const name = document.getElementById("user").value;
+            const user = {name};
+        // NOW POST INPUT VALUE TO SERVER AND SAVE AS A POST
+
+            fetch('http://localhost:7000/addUser', {
+            method: "POST",
+            body: JSON.stringify(user),
+            headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                    },
+        })
+
+        // NOW SHOW ON WEBPAGE
+        .then(res => res.json())
+        .then(data => updateUser(data));
+
+    })
+
+    function updateUser(user){
+        document.getElementById("userName").innerText = user.name;
+
+    }
+    </script>
+</body>
+</html>
